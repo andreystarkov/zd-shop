@@ -1,0 +1,21 @@
+{
+  "name": "AWPG Store",
+  "description": "E-Commerce",
+  "license": "MIT",
+  "authors": [
+    "Andrey Starkov <im@andreystarkov.ru>"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "examples",
+    "perf-test"
+  ],
+  "devDependencies": {
+    "bootstrap": "~3.3.6",
+    "less": "less.js#~2.5.3"
+  }
+}
