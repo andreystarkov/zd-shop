@@ -525,12 +525,12 @@ $(document).delegate('#button-guest', 'click', function() {
 	    },
         success: function(json) {
             $('.alert, .text-danger').remove();
-
+                console.log(json);
             if (json['redirect']) {
                 location = json['redirect'];
             } else if (json['error']) {
                 $('#button-guest').button('reset');
-
+                                console.log(json['error']['warning']);
                 if (json['error']['warning']) {
                     $('#collapse-payment-address .panel-body').prepend('<div class="alert alert-warning">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
                 }
@@ -603,6 +603,8 @@ $(document).delegate('#button-guest', 'click', function() {
 							$('#collapse-shipping-method').parent().find('.panel-heading .panel-title').html('<?php echo $text_checkout_shipping_method; ?>');
 							$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('<?php echo $text_checkout_payment_method; ?>');
 							$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('<?php echo $text_checkout_confirm; ?>');
+                            $('#button-shipping-method').trigger('click');
+
                         },
                         error: function(xhr, ajaxOptions, thrownError) {
                             alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -717,7 +719,7 @@ $(document).delegate('#button-shipping-method', 'click', function() {
                 location = json['redirect'];
             } else if (json['error']) {
                 $('#button-shipping-method').button('reset');
-                
+
                 if (json['error']['warning']) {
                     $('#collapse-shipping-method .panel-body').prepend('<div class="alert alert-warning">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
                 }

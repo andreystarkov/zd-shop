@@ -30,7 +30,7 @@
       <?php } ?>
       <?php foreach ($vouchers as $voucher) { ?>
       <tr>
-        <td class="text-left"><?php echo $voucher['description']; ?></td>
+        <td class="text-left"><?php echo $voucher['description']; ?>ddd</td>
         <td class="text-left"></td>
         <td class="text-right">1</td>
         <td class="text-right"><?php echo $voucher['amount']; ?></td>

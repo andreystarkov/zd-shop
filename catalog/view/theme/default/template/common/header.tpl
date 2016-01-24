@@ -42,6 +42,13 @@
     <?php foreach ($analytics as $analytic) { ?>
     <?php echo $analytic; ?>
     <?php } ?>
+    <script>
+    $(function() {
+      $('.radio .img-thumbnail').each(function(){
+        $(this).parent().addClass('choose-color');
+      });
+    });
+    </script>
   </head>
   <body class="<?php echo $class; ?>">
     <nav id="top">
