@@ -23,7 +23,7 @@
     <script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="/assets/scripts/scripts.js" type="text/javascript"></script>
     <link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-
+  <link href="/assets/fonts/icons/css/payment.css" rel="stylesheet" type="text/css" />
     <link href="/assets/fonts/robotodraft/robotodraft.css" rel="stylesheet">
     <link href="/assets/styles/queries.css" rel="stylesheet">
     <link rel="stylesheet/less" type="text/css" href="/assets/styles/styles.less" />
@@ -39,9 +39,9 @@
     <?php foreach ($scripts as $script) { ?>
     <script src="<?php echo $script; ?>" type="text/javascript"></script>
     <?php } ?>
-    <?php foreach ($analytics as $analytic) { ?>
-    <?php echo $analytic; ?>
-    <?php } ?>
+    <?php //foreach ($analytics as $analytic) { ?>
+    <?php //echo $analytic; ?>
+    <?php //} ?>
     <script>
     $(function() {
       $('.radio .img-thumbnail').each(function(){
@@ -49,6 +49,75 @@
       });
     });
     </script>
+
+    <style>
+      /* 3rd level menu fixes */
+
+      .dropdown-menu .third-level {
+        padding-left: 0;
+      }
+      #menu .dropdown-inner .third-level li:nth-child(even){
+        background: rgba(250,246,240,.05);
+      }
+      #menu .dropdown-inner a {
+        font-size:11px;
+        color: rgba(250,246,240,0.9);
+      }
+      #menu .nav>li>a {
+        font-size:13px;
+      }
+      #menu .dropdown-inner .third-level {
+        background: rgba(255,255,255,0.1);
+      }
+      #menu .dropdown-inner .third-level li:nth-child(odd){
+        background: rgba(250,246,240,.02);
+      }
+      #menu .dropdown.open .dropdown-menu {
+        max-height:600px;
+      }
+      .category-third {
+        list-style:none;
+        margin:0;
+        padding:0;
+      }
+      .category-third li {
+      }
+      body .list-group a {
+        border: 1px solid #ddd;
+        color: #000;
+        opacity: 1;
+        font-size: 11px;
+        padding: 6px 15px 6px 15px;
+        transition: all .4s cubic-bezier(0,.47,.46,.76);
+      }
+      body .category-third li a {
+        border: 1px solid #ddd;
+        color: #000;
+        opacity: .85;
+        background: rgba(236, 233, 227, 1);
+        display:block;
+        padding: 6px 15px 6px 25px;
+        transition: all .4s cubic-bezier(0,.47,.46,.76);
+      }
+      body .product-thumb, body .product-thumb .image {
+        background:transparent;
+        padding-bottom:0px;
+      }
+      body .product-thumb a {
+      }
+      body #top {
+        background:transparent;
+      }
+      body .product-thumb a img {
+        margin-top:-15px;
+      }
+      body .product-thumb:hover .image {
+        background:transparent;
+      }
+      body .product-thumb:hover .image a img, body .product-thumb:hover .image a, body .product-thumb:hover .image * {
+        box-shadow: 0 0 0 rgba(0,0,0,0) !important;
+      }
+    </style>
   </head>
   <body class="<?php echo $class; ?>">
     <nav id="top">
@@ -114,8 +183,21 @@
             <?php foreach (array_chunk($category['children'], ceil(count($category['children']) / $category['column'])) as $children) { ?>
             <ul class="list-unstyled">
               <?php foreach ($children as $child) { ?>
-              <li><a href="<?php echo $child['href']; ?>"><?php echo $child['name']; ?></a></li>
-              <?php } ?>
+              <?php $theClass = "class=\"is-single\""; if(isset($child['children_lv3']) && count($child['children_lv3'])>0) $theClass = " class=\"has-child\""; ?>
+              <li <?=$theClass?>><a href="<?php echo $child['href']; ?>"><?php echo $child['name']; ?></a></li>
+              <?php if(isset($child['children_lv3']) && count($child['children_lv3'])>0){ ?>
+                      <ul class="third-level <?=md5($child['href'])?>">
+                         <?php
+                         $parent_id = $child['the_id'];
+                         foreach ($child['children_lv3'] as $child_lv3) { ?>
+                         <? if( $parent_id == $child_lv3['parent_id']) { ?>
+                         <li><a href="<?php echo $child_lv3['href']; ?>"><?php echo $child_lv3['name']; ?></a></li>
+                          <?php
+                            }
+                          } ?>
+                      </ul>
+                    <?php } ?>
+                  <?php } ?>
             </ul>
             <?php } ?>
           </div>

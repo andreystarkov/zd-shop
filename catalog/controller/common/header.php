@@ -1,30 +1,13 @@
 <?php
 class ControllerCommonHeader extends Controller {
 	public function index() {
-		// Analytics
-		$this->load->model('extension/extension');
-
-		$data['analytics'] = array();
-
-		$analytics = $this->model_extension_extension->getExtensions('analytics');
-
-		foreach ($analytics as $analytic) {
-			if ($this->config->get($analytic['code'] . '_status')) {
-				$data['analytics'][] = $this->load->controller('analytics/' . $analytic['code']);
-			}
-		}
+		$data['title'] = $this->document->getTitle();
 
 		if ($this->request->server['HTTPS']) {
 			$server = $this->config->get('config_ssl');
 		} else {
 			$server = $this->config->get('config_url');
 		}
-
-		if (is_file(DIR_IMAGE . $this->config->get('config_icon'))) {
-			$this->document->addLink($server . 'image/' . $this->config->get('config_icon'), 'icon');
-		}
-
-		$data['title'] = $this->document->getTitle();
 
 		$data['base'] = $server;
 		$data['description'] = $this->document->getDescription();
@@ -35,7 +18,19 @@ class ControllerCommonHeader extends Controller {
 		$data['lang'] = $this->language->get('code');
 		$data['direction'] = $this->language->get('direction');
 
+		if ($this->config->get('config_google_analytics_status')) {
+			$data['google_analytics'] = html_entity_decode($this->config->get('config_google_analytics'), ENT_QUOTES, 'UTF-8');
+		} else {
+			$data['google_analytics'] = '';
+		}
+
 		$data['name'] = $this->config->get('config_name');
+
+		if (is_file(DIR_IMAGE . $this->config->get('config_icon'))) {
+			$data['icon'] = $server . 'image/' . $this->config->get('config_icon');
+		} else {
+			$data['icon'] = '';
+		}
 
 		if (is_file(DIR_IMAGE . $this->config->get('config_logo'))) {
 			$data['logo'] = $server . 'image/' . $this->config->get('config_logo');
@@ -46,16 +41,7 @@ class ControllerCommonHeader extends Controller {
 		$this->load->language('common/header');
 
 		$data['text_home'] = $this->language->get('text_home');
-
-		// Wishlist
-		if ($this->customer->isLogged()) {
-			$this->load->model('account/wishlist');
-
-			$data['text_wishlist'] = sprintf($this->language->get('text_wishlist'), $this->model_account_wishlist->getTotalWishlist());
-		} else {
-			$data['text_wishlist'] = sprintf($this->language->get('text_wishlist'), (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0));
-		}
-
+		$data['text_wishlist'] = sprintf($this->language->get('text_wishlist'), (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0));
 		$data['text_shopping_cart'] = $this->language->get('text_shopping_cart');
 		$data['text_logged'] = sprintf($this->language->get('text_logged'), $this->url->link('account/account', '', 'SSL'), $this->customer->getFirstName(), $this->url->link('account/logout', '', 'SSL'));
 
@@ -112,6 +98,7 @@ class ControllerCommonHeader extends Controller {
 			if ($category['top']) {
 				// Level 2
 				$children_data = array();
+				$children_lv3_data = array();
 
 				$children = $this->model_catalog_category->getCategories($category['category_id']);
 
@@ -121,10 +108,43 @@ class ControllerCommonHeader extends Controller {
 						'filter_sub_category' => true
 					);
 
-					$children_data[] = array(
-						'name'  => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+					$children_lv3 = $this->model_catalog_category->getCategories($child['category_id']);
+
+					if($children_lv3)
+					{
+
+					    foreach ($children_lv3 as $child_lv3)
+					    {
+					        $filter_data_lv3 = array(
+					        'filter_category_id'  => $child_lv3['category_id'],
+					        'filter_sub_category' => true
+					        );
+
+					        $children_lv3_data[] = array(
+					        'category_id' => $child_lv3['category_id'],
+					        'name'  => $child_lv3['name'],
+					        'parent_id' => $child['category_id'],
+					        'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'] . '_' . $child_lv3['category_id'])
+					        );
+					    }
+
+					    $children_data[] = array(
+					            'children_lv3' => $children_lv3_data,
+							    'name'  => $child['name'],
+							    'the_id' => $child['category_id'],
+							    'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
+							    );
+
+						}
+
+					else
+					{
+
+					    $children_data[] = array(
+						'name'  => $child['name'],
 						'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
-					);
+					    );
+					}
 				}
 
 				// Level 1
