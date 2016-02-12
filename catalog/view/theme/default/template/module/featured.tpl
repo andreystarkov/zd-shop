@@ -13,7 +13,8 @@
         <?php foreach ($options as $option) { ?>
           <?php if ($option['type'] == 'image') { ?>
             <?php foreach ($option['product_option_value'] as $option_value) { ?>
-                <div class="the-color" title="<?=$option_value['name']?>"><img src="<?=$option_value['image']?>" alt="<?=$option_value['name']?>"></div>
+                <div class="the-color" data-toggle="tooltip" data-original-title="<?=$option_value['name']?>" title="<?=$option_value['name']?>">
+                <img src="<?=$option_value['image']?>" alt="<?=$option_value['name']?>"></div>
             <?php } ?>
           <? } ?>
         <? }
@@ -47,7 +48,9 @@
         <?php } ?>
       </div>
       <div class="button-group">
-        <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_cart; ?></span></button>
+        <button type="button" onclick="document.location.href = '<?=$product['href']?>'">
+          <i class="fa fa-search"></i> <span class="hidden-xs hidden-sm hidden-md">Подробнее</span>
+        </button>
         <button type="button" data-toggle="tooltip" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-heart"></i></button>
         <button type="button" data-toggle="tooltip" title="<?php echo $button_compare; ?>" onclick="compare.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-exchange"></i></button>
       </div>

@@ -23,7 +23,7 @@ function getURLVar(key) {
 		var query = String(document.location.pathname).split('/');
 		if (query[query.length - 1] == 'cart') value['route'] = 'checkout/cart';
 		if (query[query.length - 1] == 'checkout') value['route'] = 'checkout/checkout';
-		
+
 		if (value[key]) {
 			return value[key];
 		} else {
@@ -155,12 +155,13 @@ var cart = {
 			},
 			success: function(json) {
 				$('.alert, .text-danger').remove();
-
+				console.log(json);
 				if (json['redirect']) {
 					location = json['redirect'];
 				}
 
 				if (json['success']) {
+					console.log('success '+json['success']);
 					$('#content').parent().before('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 
 					// Need to set timeout otherwise it wont update the total
@@ -174,6 +175,7 @@ var cart = {
 				}
 			},
 	        error: function(xhr, ajaxOptions, thrownError) {
+	        	console.log('err '+thrownError);
 	            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 	        }
 		});
@@ -192,6 +194,8 @@ var cart = {
 			},
 			success: function(json) {
 				// Need to set timeout otherwise it wont update the total
+				console.log('upd success ');
+				console.log(json);
 				setTimeout(function () {
 					$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
 				}, 100);
@@ -203,6 +207,7 @@ var cart = {
 				}
 			},
 	        error: function(xhr, ajaxOptions, thrownError) {
+	        	console.log('err upd '+thrownError);
 	            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 	        }
 		});

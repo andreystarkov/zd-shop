@@ -13,7 +13,8 @@
         <?php foreach ($options as $option) { ?>
           <?php if ($option['type'] == 'image') { ?>
             <?php foreach ($option['product_option_value'] as $option_value) { ?>
-                <div class="the-color" title="<?=$option_value['name']?>"><img src="<?=$option_value['image']?>" alt="<?=$option_value['name']?>"></div>
+                <div class="the-color" data-toggle="tooltip" data-original-title="<?=$option_value['name']?>" title="<?=$option_value['name']?>">
+                <img src="<?=$option_value['image']?>" alt="<?=$option_value['name']?>"></div>
             <?php } ?>
           <? } ?>
         <? }
