@@ -10,7 +10,7 @@
 }
 .rouble
 {
-	font-family:'rouble';
-	font-weight: normal;
-    font-style: normal;
+	font-family:'rouble' !important;
+	font-weight: normal !important;
+    font-style: normal !important;
 }

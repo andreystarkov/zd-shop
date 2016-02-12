@@ -45,6 +45,7 @@
     <script src="/assets/scripts/scripts.js" type="text/javascript"></script>
     <link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/fonts/icons/css/payment.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/fonts/rouble.css" rel="stylesheet" type="text/css" />
     <!-- <link href="/assets/fonts/robotodraft/robotodraft.css" rel="stylesheet"> -->
     <link href="/assets/styles/queries.css" rel="stylesheet">
     <link href="/assets/app/styles.css" rel="stylesheet">
