@@ -1,36 +1,42 @@
-@color0: #ffffff; // Appears 29 times
-@color1: #dddddd; // Appears 18 times
-@color2: #1f90bb; // Appears 14 times
-@color3: #444444; // Appears 10 times
-@color4: #374C63; // Appears 9 times
-@color5: #eeeeee; // Appears 8 times
-@color6: #374C63; // Appears 8 times
-@color7: #888888; // Appears 5 times
-@color8: #222222; // Appears 4 times
+/*
 
-@colorBlack:#353135;
-@colorBlue:#374C63;
-@colorDarkBackground:#353135;
-@colorWhite:#FFFCF2;
-@colorYellow:#FCBA04;
-@colorGreen:#528C3C;
-@colorDark:#1F2421;
-@colorRed:#DB372F;
+    ┬ ┬┌─┐┌┐ ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐
+    │││├┤ ├┴┐└─┐│  ├─┤├─┘├┤ └─┐
+    └┴┘└─┘└─┘└─┘└─┘┴ ┴┴  └─┘└─┘
+
+    http://github.com/andreystarkov
+    im@andreystarkov.ru
+
+*/
+
+@color0: #ffffff; @color1: #dddddd; @color2: #1f90bb; @color3: #444444;
+@color4: #374C63; @color5: #eeeeee; @color6: #374C63; @color7: #888888;
+@color8: #222222;
+
+@colorBlack:#353135; @colorBlue:#374C63; @colorDarkBackground:#353135;
+@colorWhite:#FFFCF2; @colorYellow:#FCBA04; @colorGreen:#528C3C;
+@colorDark:#1F2421; @colorRed:#DB372F;
+
+@colorLightBackground: mix(@colorWhite, @colorBlack,94%);
+@navBackground:@colorBlack;
+
+@defaultFunction: cubic-bezier(.1,.27,.76,1.19); // cubic-bezier(.07,.8,.87,.71);
+
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans:400,300,300italic,400italic,500,500italic,700,700italic&subset=latin,cyrillic);
+// @import url(https://fonts.googleapis.com/css?family=Rubik:400,300,400italic,300italic,500,500italic,700,700italic,900italic,900&subset=latin,cyrillic);
 
 .navbar-bar {
     margin:7.5px 3px;
 }
 
-@colorLightBackground: mix(@colorWhite, @colorBlack,94%);
-@navBackground:@colorBlack;
-
-@defaultFunction: cubic-bezier(.07,.8,.87,.71);
-
 body {
     color: #353135;
-    font-family: RobotoDraft, sans-serif;
+    font-family: 'Fira Sans', sans-serif;
+    //font-family: 'Rubik', sans-serif;
     font-size: 14px;
+    -webkit-font-smoothing: antialiased;
     font-weight: 400;
+    background:rgba(0,0,0,0.02);
     line-height: 20px;
     width: 100%;
 }
@@ -91,6 +97,7 @@ span.hidden-xs, span.hidden-sm, span.hidden-md, span.hidden-lg  {
 .nav-tabs {
     margin-bottom: 15px;
 }
+
 div.required {
     .control-label {
         &:before {
@@ -100,6 +107,7 @@ div.required {
         }
     }
 }
+
 .dropdown-menu {
     li>a {
         &:hover {
@@ -113,7 +121,6 @@ div.required {
 
 #top {
     background-color: @colorLightBackground;
-
     margin: 0 0 20px 0;
     min-height: 40px;
     padding: 4px 0px 3px 0;
@@ -153,8 +160,15 @@ div.required {
     }
     a {
         display: inline-block;
-        margin-right:5px;
-        margin-left:5px;
+        transition:0.5s @defaultFunction all;
+        margin-right:10px;
+        font-size:11px;
+        i {
+            display:inline-block;
+            margin-right:3px;
+            font-size:11px;
+        }
+        margin-left:10px;
         text-transform: uppercase;
         color: fade(@colorBlack,40%);
         text-decoration: none;
@@ -221,8 +235,17 @@ div.required {
         }
     }
     margin-bottom: 10px;
+    &.open {
+        .dropdown-menu {
+            visibility: visible;
+            transform: translateY(0px) scale(1, 1) rotateX(0deg) perspective(70px);
+        }
+    }
     .dropdown-menu {
-        background: @color5;
+        display:block;
+        visibility:hidden;
+        transform: translateY(-40px) scale(1, 0) rotateX(90deg) perspective(50px);
+        transition:0.25s @defaultFunction all;
         min-width: 100%;
         z-index: 1001;
         table {
@@ -259,6 +282,7 @@ div.required {
     transition: all 0.3s;
     max-height: 0;
     display: block;
+    transition: scale(1);
     overflow: hidden;
     opacity: 0;
 }
@@ -295,8 +319,8 @@ div.required {
     }
     .dropdown-menu {
         padding-bottom: 0;
-        background:@navBackground;
-        transition: 0.6s ease-in-out all;
+     //   background:@navBackground;
+    //    transition: 0.6s ease-in-out all;
     }
     .dropdown-inner {
         width: 100%;
@@ -594,12 +618,14 @@ footer {
     a {
         border: 1px solid @color1;
         color: @colorBlack;
-        opacity:0.85;
-        font-size:16px;
+        opacity:1;
+        text-transform:uppercase;
+        font-size:12px;
+        font-weight:200;
         padding: 8px 12px;
         transition:all 0.4s @defaultFunction;
         &:hover {
-            background: desaturate(mix(@colorBlack, @colorWhite,10%),10%);
+            background: desaturate(mix(@colorBlack, @colorWhite,5%),5%);
             border: 1px solid @color1;
             color: @colorDark;
         }
@@ -647,46 +673,55 @@ footer {
 .section-featured {
     margin-bottom:55px;
 }
+
+.product-thumb .button-group button + button {
+ border-color: fade(#000,20%);
+}
+
 .product-thumb {
     margin-bottom: 20px;
     overflow: auto;
-    transtion: 0.4s ease-in-out all;
+    transtion: 0.6s ease-in-out all;
     .button-group {
+        transform: perspective(200px) rotateX(90deg) translateY(-200px);
         opacity: 0;
-        transition: 0.4s linear all;
+        transition: 0.3s @defaultFunction all;
         margin:0 auto;
         position: absolute;
-        bottom:15px;
+        top:170px;
         width:55%;
         left:22%;
-        background: transparent;
         border:0;
+        background:@colorYellow;
+        border-radius:4px;
+        border-bottom:3px solid darken(@colorYellow,4%);
+        box-shadow:0 2px 4px fade(@colorDark,15%);
         button {
-            transition: all 0.4s @defaultFunction 0.1s;
+            transition: all 0.2s @defaultFunction;
             span {
                 color: @colorBlack;
             }
             border: 0;
-            background: transparent;
         }
     }
     &:hover {
+        box-shadow:0 1px 3px fade(@colorDark, 20%);
+        background-color:#fff;
         .button-group {
+            transform: perspective(500px) rotateX(0deg) translateY(0px);
             opacity: 1;
         }
     }
     .image {
         padding-top:25px;
-        padding-bottom:25px;
-        background: fade(@colorBlack,10%);
+        padding-bottom:12px;
+        background: #fff;
         text-align: center;
-        transition: all 0.4s linear 0.1s;
+        transition: all 0.3s @defaultFunction 0s;
         &:hover {
-            background: fade(@colorBlack,30%);
-            box-shadow: inset 0 20px 120px @colorWhite;
             a {
-                transform: perspective(500px) rotateY(-15deg);
-                box-shadow: 0 2px 8px @colorBlack;
+                transform: perspective(200px) rotateY(-5deg);
+            //    box-shadow: 0 2px 8px @colorBlack;
             }
         }
         a {
@@ -703,16 +738,17 @@ footer {
     }
     h4 {
         font-weight: bold;
+        margin-right:15px;
     }
     p { display: none; }
-    p.price {
-        display: block;
+    p.price, h4 {
+        display: inline-block;
     }
     .caption {
         margin-top:15px;
         text-align: center;
         min-height: 80px;
-        padding: 0 20px;
+        padding: 0 0px;
         h4 a {
             font-size:14px;
             text-transform: uppercase;
@@ -742,7 +778,12 @@ footer {
     .button-group {
         overflow: auto;
         button {
+            background-color: @colorYellow;
+            .fa, i {
+                color: #000;
+            }
             border: none;
+            transition: all 0.6s @defaultFunction;
             color: mix(@colorBlack, @colorWhite, 30%);
             display: inline-block;
             float: left;
@@ -755,7 +796,8 @@ footer {
                 font-size:12px;
             }
             &:hover {
-                background-color: @colorYellow;
+                background-color: lighten(@colorYellow,12%);
+                border-bottom-color: darken(@colorYellow,1%);
                 color: @colorDark;
                 cursor: pointer;
                 text-decoration: none;
@@ -831,7 +873,6 @@ h2.price {
     }
 }
 
-
 .choose-color {
     font-size:14px;
     .img-thumbnail {
@@ -839,5 +880,105 @@ h2.price {
         width:30px;
         height:30px;
         margin-right: 8px;
+    }
+}
+
+/* picture options @ product list */
+
+
+
+body .product-thumb .caption {
+  margin-top:0;
+}
+.the-options {
+  display:inline-block;
+}
+.the-options .the-color {
+  display:inline-block;
+  float:left;
+  width:23px;
+  height:23px;
+}
+.the-options .the-color img {
+  width:100%;
+  height:100%;
+}
+#alttext-container {
+  display:none;
+}
+
+/* 3rd level menu fix */
+
+.dropdown-menu {
+    .third-level {
+        padding-left: 0;
+    }
+}
+
+#menu {
+    .dropdown-inner {
+        .third-level {
+            background: rgba(255,255,255,0.03);
+            li {
+                &:nth-child(even) {
+                    background: rgba(250,246,240,.05);
+                }
+                &:nth-child(odd) {
+                    background: rgba(250,246,240,.03);
+                }
+            }
+        }
+        a {
+            color: rgba(250,246,240,0.9);
+            font-size:11px;
+        }
+    }
+    .nav>li>a {
+        font-size:13px;
+    }
+    .dropdown-menu {
+        transform: scale(1, 0.5) rotateX(90deg) perspective(70px);
+        transform-origin: top;
+        transition:0.25s @defaultFunction all;
+    }
+    .dropdown.open {
+        .dropdown-menu {
+            transform: scale(1, 1) rotateX(0deg);
+            background:lighten(@colorDarkBackground,2%);
+            max-height:700px;
+        }
+    }
+}
+.category-third {
+    list-style:none;
+    margin:0;
+    padding:0;
+    li {
+    }
+}
+
+body {
+    .category-third {
+        li {
+            a {
+                background: rgba(236, 233, 227, 1);
+                border: 1px solid #dddddd;
+                color: #000000;
+                display:block;
+                opacity: .85;
+                padding: 6px 15px 6px 25px;
+                transition: all .4s cubic-bezier(0,.47,.46,.76);
+            }
+        }
+    }
+    .product-thumb {
+        a {
+            img {
+                margin-top:-15px;
+            }
+        }
+    }
+    #top {
+        background:transparent;
     }
 }

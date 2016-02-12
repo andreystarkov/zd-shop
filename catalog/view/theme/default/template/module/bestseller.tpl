@@ -5,6 +5,21 @@
     <div class="product-thumb transition">
       <div class="image"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
       <div class="caption">
+
+        <?  // picture options ??>
+
+        <div class="the-options">
+        <? if ($options) { ?>
+        <?php foreach ($options as $option) { ?>
+          <?php if ($option['type'] == 'image') { ?>
+            <?php foreach ($option['product_option_value'] as $option_value) { ?>
+                <div class="the-color" title="<?=$option_value['name']?>"><img src="<?=$option_value['image']?>" alt="<?=$option_value['name']?>"></div>
+            <?php } ?>
+          <? } ?>
+        <? }
+        } ?>
+        </div>
+
         <h4><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></h4>
         <p><?php echo $product['description']; ?></p>
         <?php if ($product['rating']) { ?>

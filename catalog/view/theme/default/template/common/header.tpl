@@ -7,9 +7,30 @@
   <!--<![endif]-->
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-title" content="Quickly">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!--
+
+    ┬ ┬┌─┐┌┐ ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐
+    │││├┤ ├┴┐└─┐│  ├─┤├─┘├┤ └─┐
+    └┴┘└─┘└─┘└─┘└─┘┴ ┴┴  └─┘└─┘
+
+    http://github.com/andreystarkov
+    im@andreystarkov.ru
+
+    -->
+
     <title><?php echo $title; ?></title>
+
+    <link rel="icon" type="image/png" href="/assets/images/icon.png" />
+    <link rel="apple-touch-icon" href="/assets/images/icon.png"/>
+
     <base href="<?php echo $base; ?>" />
     <?php if ($description) { ?>
     <meta name="description" content="<?php echo $description; ?>" />
@@ -23,11 +44,14 @@
     <script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="/assets/scripts/scripts.js" type="text/javascript"></script>
     <link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-  <link href="/assets/fonts/icons/css/payment.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/fonts/robotodraft/robotodraft.css" rel="stylesheet">
+    <link href="/assets/fonts/icons/css/payment.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="/assets/fonts/robotodraft/robotodraft.css" rel="stylesheet"> -->
     <link href="/assets/styles/queries.css" rel="stylesheet">
-    <link rel="stylesheet/less" type="text/css" href="/assets/styles/styles.less" />
+    <link href="/assets/app/styles.css" rel="stylesheet">
+
+    <!-- <link rel="stylesheet/less" type="text/css" href="/assets/styles/styles.less" />
     <script src="/assets/libs/less/dist/less.min.js" type="text/javascript"></script>
+    -->
 
     <?php foreach ($styles as $style) { ?>
     <link href="<?php echo $style['href']; ?>" type="text/css" rel="<?php echo $style['rel']; ?>" media="<?php echo $style['media']; ?>" />
@@ -49,75 +73,6 @@
       });
     });
     </script>
-
-    <style>
-      /* 3rd level menu fixes */
-
-      .dropdown-menu .third-level {
-        padding-left: 0;
-      }
-      #menu .dropdown-inner .third-level li:nth-child(even){
-        background: rgba(250,246,240,.05);
-      }
-      #menu .dropdown-inner a {
-        font-size:11px;
-        color: rgba(250,246,240,0.9);
-      }
-      #menu .nav>li>a {
-        font-size:13px;
-      }
-      #menu .dropdown-inner .third-level {
-        background: rgba(255,255,255,0.1);
-      }
-      #menu .dropdown-inner .third-level li:nth-child(odd){
-        background: rgba(250,246,240,.02);
-      }
-      #menu .dropdown.open .dropdown-menu {
-        max-height:600px;
-      }
-      .category-third {
-        list-style:none;
-        margin:0;
-        padding:0;
-      }
-      .category-third li {
-      }
-      body .list-group a {
-        border: 1px solid #ddd;
-        color: #000;
-        opacity: 1;
-        font-size: 11px;
-        padding: 6px 15px 6px 15px;
-        transition: all .4s cubic-bezier(0,.47,.46,.76);
-      }
-      body .category-third li a {
-        border: 1px solid #ddd;
-        color: #000;
-        opacity: .85;
-        background: rgba(236, 233, 227, 1);
-        display:block;
-        padding: 6px 15px 6px 25px;
-        transition: all .4s cubic-bezier(0,.47,.46,.76);
-      }
-      body .product-thumb, body .product-thumb .image {
-        background:transparent;
-        padding-bottom:0px;
-      }
-      body .product-thumb a {
-      }
-      body #top {
-        background:transparent;
-      }
-      body .product-thumb a img {
-        margin-top:-15px;
-      }
-      body .product-thumb:hover .image {
-        background:transparent;
-      }
-      body .product-thumb:hover .image a img, body .product-thumb:hover .image a, body .product-thumb:hover .image * {
-        box-shadow: 0 0 0 rgba(0,0,0,0) !important;
-      }
-    </style>
   </head>
   <body class="<?php echo $class; ?>">
     <nav id="top">
@@ -186,18 +141,18 @@
               <?php $theClass = "class=\"is-single\""; if(isset($child['children_lv3']) && count($child['children_lv3'])>0) $theClass = " class=\"has-child\""; ?>
               <li <?=$theClass?>><a href="<?php echo $child['href']; ?>"><?php echo $child['name']; ?></a></li>
               <?php if(isset($child['children_lv3']) && count($child['children_lv3'])>0){ ?>
-                      <ul class="third-level <?=md5($child['href'])?>">
-                         <?php
-                         $parent_id = $child['the_id'];
-                         foreach ($child['children_lv3'] as $child_lv3) { ?>
-                         <? if( $parent_id == $child_lv3['parent_id']) { ?>
-                         <li><a href="<?php echo $child_lv3['href']; ?>"><?php echo $child_lv3['name']; ?></a></li>
-                          <?php
-                            }
-                          } ?>
-                      </ul>
-                    <?php } ?>
-                  <?php } ?>
+              <ul class="third-level <?=md5($child['href'])?>">
+                <?php
+                $parent_id = $child['the_id'];
+                foreach ($child['children_lv3'] as $child_lv3) { ?>
+                <? if( $parent_id == $child_lv3['parent_id']) { ?>
+                <li><a href="<?php echo $child_lv3['href']; ?>"><?php echo $child_lv3['name']; ?></a></li>
+                <?php
+                }
+                } ?>
+              </ul>
+              <?php } ?>
+              <?php } ?>
             </ul>
             <?php } ?>
           </div>

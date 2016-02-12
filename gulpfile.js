@@ -1,4 +1,13 @@
-// by Andrey Starkov (im@andreystarkov.ru)
+/*
+
+    ┬ ┬┌─┐┌┐ ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐
+    │││├┤ ├┴┐└─┐│  ├─┤├─┘├┤ └─┐
+    └┴┘└─┘└─┘└─┘└─┘┴ ┴┴  └─┘└─┘
+
+    http://github.com/andreystarkov
+    im@andreystarkov.ru
+
+*/
 
 var gulp = require('gulp'),
     rename = require("gulp-rename"),
@@ -34,7 +43,7 @@ var LessPluginCleanCSS = require('less-plugin-clean-css'),
         .pipe(sourcemaps.init())
         .pipe(less({ plugins: [autoprefix, cleancss]}))
         .pipe(rename({ suffix: '.less' }))
-        .pipe(gulp.dest('dist/styles'))
+        .pipe(gulp.dest('assets/app'))
         .pipe(sourcemaps.write('./'))
         .pipe(size({
             title: 'LESS'
@@ -43,7 +52,7 @@ var LessPluginCleanCSS = require('less-plugin-clean-css'),
 
 gulp.task('css-concat', function() {
   return gulp.src([
-    'dist/styles/styles.less.css',
+    'assets/app/styles.less.css',
     'css/fullwidth-slider.css',
     'css/bootstrap.min.css',
     'css/bootstrap-theme.min.css',
@@ -53,14 +62,14 @@ gulp.task('css-concat', function() {
     'css/tooltipster.css'
     ])
     .pipe(concat('styles.css'))
-    .pipe(gulp.dest('dist/styles'))
+    .pipe(gulp.dest('assets/app'))
     .pipe(size({
         title: 'Concat CSS'
     }));
 });
 
 gulp.task('css-min', function() {
-  return gulp.src('dist/styles/styles.css')
+  return gulp.src('assets/app/styles.css')
     .pipe(minifyCss())
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest('dist/styles'))
